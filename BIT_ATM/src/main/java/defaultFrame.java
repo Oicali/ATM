@@ -19,3 +19,4 @@ public class defaultFrame extends JFrame {
         this.setLocationRelativeTo(null);
     }
 }
+
