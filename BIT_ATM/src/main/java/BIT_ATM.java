@@ -1,17 +1,10 @@
-import java.io.File;
-import java.io.IOException;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
+import java.io.*;
+import javax.sound.sampled.*;
+import javax.swing.*;
 
 public class BIT_ATM extends defaultFrame {
+
+    static Clip clip;
     
     BIT_ATM() {
         super();
@@ -44,7 +37,7 @@ public class BIT_ATM extends defaultFrame {
 
             try {
                 AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-                Clip clip = AudioSystem.getClip();
+                clip = AudioSystem.getClip();
                 clip.open(audioStream);
                 clip.start();
             } catch (UnsupportedAudioFileException | IOException e) {
@@ -60,7 +53,9 @@ public class BIT_ATM extends defaultFrame {
             openingFrame.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
                 public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                    
+                    clip.stop();
+                    logIn logInFrame = new logIn();
+                    logInFrame.show();
                 }
             });
         });
