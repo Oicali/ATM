@@ -35,6 +35,7 @@ public class BIT_ATM extends defaultFrame {
 
             File file = new File("C:\\Users\\jairus\\Documents\\GitHub\\ATM\\BIT_ATM\\src\\ATM_resources\\Intro_sound.wav");
 
+            // Code to play the opening sounds and handle exceptions
             try {
                 AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
                 clip = AudioSystem.getClip();
@@ -43,13 +44,10 @@ public class BIT_ATM extends defaultFrame {
             } catch (UnsupportedAudioFileException | IOException e) {
                 e.printStackTrace(); // Or handle the exception in a way that makes sense for your application
             } catch (LineUnavailableException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
-            
-
-            // Open the Login frame as soon as the Opening frame closes
+            // Force stop the sounds and open the Login frame
             openingFrame.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
                 public void windowClosed(java.awt.event.WindowEvent windowEvent) {
