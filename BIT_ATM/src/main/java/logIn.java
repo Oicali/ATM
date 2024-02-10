@@ -2,11 +2,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class logIn extends defaultFrame {
+public class logIn extends frameSettings {
 
     static int attempt = 3;
 
-    logIn(){
+    logIn() {
+        // frame settings
         super();
         JDialog.setDefaultLookAndFeelDecorated(true);
 
@@ -20,7 +21,7 @@ public class logIn extends defaultFrame {
         lbl1.setFont(new Font("Source Sans Pro", Font.ITALIC + Font.BOLD, 30));
         lbl1.setHorizontalAlignment(JLabel.CENTER);
         lbl1.setForeground(new Color(255, 222, 89));
-        lbl1.setBounds(550, 35, 400, 40);
+        lbl1.setBounds(550, 40, 400, 40);
         pnl1.add(lbl1);
 
         JLabel lbl2 = new JLabel("Enter your PIN");
@@ -40,22 +41,14 @@ public class logIn extends defaultFrame {
         final JButton loginBtn = new JButton("Enter");
         loginBtn.setBounds(672, 318, 160, 46);
         loginBtn.setFont(new Font("Source Sans Pro", Font.ITALIC + Font.BOLD, 25));
-        loginBtn.setContentAreaFilled(false);
-        loginBtn.setBorderPainted(false);
+        loginBtn.setContentAreaFilled(true);
+        //loginBtn.setBorderPainted(false);
         loginBtn.setFocusPainted(false);
         loginBtn.setOpaque(false);
-        loginBtn.setForeground(new Color(255, 255, 255));
+        loginBtn.setForeground(new Color(0, 0, 0));
         pnl1.add(loginBtn);
 
-        final JButton cancelBtn = new JButton("Cancel");
-        cancelBtn.setBounds(37, 617, 100, 37);
-        cancelBtn.setFont(new Font("Source Sans Pro", Font.ITALIC + Font.BOLD, 20));
-        cancelBtn.setContentAreaFilled(false);
-        cancelBtn.setBorderPainted(false);
-        cancelBtn.setFocusPainted(false);
-        cancelBtn.setOpaque(false);
-        cancelBtn.setForeground(new Color(255, 255, 255));
-        pnl1.add(cancelBtn);
+        frameSettings.addCancelButton(pnl1, 25, 617);
 
         final JButton changePass = new JButton("<html><i><u>Change Password</u></i></html>");
         changePass.setBounds(678, 430, 160, 35);
@@ -67,17 +60,22 @@ public class logIn extends defaultFrame {
         changePass.setForeground(new Color(255, 222, 89));
         pnl1.add(changePass);
 
+        JLabel logInBG = new JLabel();
+        logInBG.setIcon(
+                new ImageIcon("C:\\Users\\jairus\\Documents\\GitHub\\ATM\\BIT_ATM\\src\\ATM_resources\\logIn_BG.png"));
+        logInBG.setBounds(0, -15, 1050, 700);
+        pnl1.add(logInBG);
 
-        // Buttons Functions
+        this.show();
+
+
+        // Buttons Functions starts here...
         PIN.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent ke) {
-                String value = PIN.getText();
-                int l = value.length();
                 if (ke.getKeyChar() >= '0' && ke.getKeyChar() <= '9' || ke.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                     PIN.setEditable(true);
                 } else {
                     PIN.setEditable(false);
-
                 }
             }
         });
@@ -87,6 +85,8 @@ public class logIn extends defaultFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!PIN.getText().equals(account.getPassword())) {
+                    playError();
+
                     JOptionPane.showMessageDialog(null, "PIN incorrect", "", JOptionPane.ERROR_MESSAGE);
                     attempt--;
                     JOptionPane.showMessageDialog(null, "Attempts remaining: " + attempt, "",
@@ -100,20 +100,10 @@ public class logIn extends defaultFrame {
                         System.exit(0);
                     }
                 } else {
+                    playConfirm();
+                    
                     JOptionPane.showMessageDialog(null, "Login Successful!");
                     dispose();
-                }
-            }
-        });
-
-        cancelBtn.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel transaction?",
-                        "Exit Confirmation", JOptionPane.YES_NO_OPTION);
-                if (choice == JOptionPane.YES_OPTION) {
-                    System.exit(0);
                 }
             }
         });
@@ -121,6 +111,8 @@ public class logIn extends defaultFrame {
         changePass.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                playWarning();
+
                 int choice2 = JOptionPane.showConfirmDialog(null, "Are you sure you want to change your password?",
                         "Change Password", JOptionPane.YES_NO_OPTION);
                 if (choice2 == JOptionPane.YES_OPTION) {
@@ -151,13 +143,9 @@ public class logIn extends defaultFrame {
                 }
             }
         });
-
-        JLabel logInBG = new JLabel();
-        logInBG.setIcon(
-                new ImageIcon("C:\\Users\\jairus\\Documents\\NetBeansProjects\\ATM\\src\\resources\\LogIn BG.png"));
-        logInBG.setBounds(0, -21, 1050, 700);
-        pnl1.add(logInBG);
-
-        this.show();
+    }
+    
+    public static void main (String[]args){
+        new logIn();
     }
 }

@@ -1,12 +1,7 @@
-import java.awt.*;
-import java.io.*;
-import javax.sound.sampled.*;
 import javax.swing.*;
 
-public class BIT_ATM extends defaultFrame {
-    
-    static Clip clip;
-    
+public class BIT_ATM extends frameSettings {
+
     BIT_ATM() {
         super();
 
@@ -18,7 +13,7 @@ public class BIT_ATM extends defaultFrame {
 
 
         // Set up a timer to close the frame after the GIF duration (in milliseconds)
-        int gifDuration = 4900; // 5 seconds
+        int gifDuration = 4500; // 5 seconds
         Timer timer = new Timer(gifDuration, e -> {
             this.dispose();
 
@@ -35,27 +30,12 @@ public class BIT_ATM extends defaultFrame {
         SwingUtilities.invokeLater(() -> {
             BIT_ATM openingFrame = new BIT_ATM();
             openingFrame.show();
+            playOpening();
 
-            File file = new File("C:\\Users\\jairus\\Documents\\GitHub\\ATM\\BIT_ATM\\src\\ATM_resources\\Intro_sound.wav");
-
-            // Code to play the opening sounds and handle exceptions
-            try {
-                AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-                clip = AudioSystem.getClip();
-                clip.open(audioStream);
-                clip.start();
-            } catch (UnsupportedAudioFileException | IOException e) {
-                e.printStackTrace(); // Or handle the exception in a way that makes sense for your application
-            } catch (LineUnavailableException e) {
-                e.printStackTrace();
-            }
-
-
-            // Force stop the sounds and open the Login frame
+            // Open the Login frame
             openingFrame.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
                 public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                    clip.stop();
                     new logIn();
                 }
             });
