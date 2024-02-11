@@ -83,12 +83,12 @@ public class frameSettings extends JFrame {
     }
 
     // Cancel button
-    public static void addCancelButton(JPanel panel, int x, int y) {
+    public static void addCancelButton(JPanel panel) {
         JLabel cancel_Button = new JLabel();
         cancel_Button.setIcon(
                 new ImageIcon(
                         "C:\\Users\\jairus\\Documents\\GitHub\\ATM\\BIT_ATM\\src\\ATM_resources\\cancelButton.png"));
-        cancel_Button.setBounds(x, y, 156, 37);
+        cancel_Button.setBounds(18, 619, 156, 37);
         panel.add(cancel_Button);
 
         cancel_Button.addMouseListener(new MouseListener() {

@@ -5,6 +5,8 @@ import javax.swing.*;
 public class logIn extends frameSettings {
 
     static int attempt = 3;
+    static JPasswordField passwordField = new JPasswordField();
+    static final JPasswordField PIN = new JPasswordField();
 
     logIn() {
         // frame settings
@@ -28,18 +30,18 @@ public class logIn extends frameSettings {
         lbl2.setFont(new Font("Source Sans Pro", Font.ITALIC + Font.BOLD, 25));
         lbl2.setHorizontalAlignment(JLabel.CENTER);
         lbl2.setForeground(new Color(255, 222, 89));
-        lbl2.setBounds(550, 170, 400, 40);
+        lbl2.setBounds(555, 200, 400, 40);
         pnl1.add(lbl2);
 
-        final JPasswordField PIN = new JPasswordField();
-        PIN.setBounds(550, 220, 400, 65);
-        PIN.setFont(new Font("Source Sans Pro", Font.BOLD, 28));
+        
+        PIN.setBounds(583, 255, 350, 50);
+        PIN.setFont(new Font("Source Sans Pro", Font.BOLD, 25));
         PIN.setBorder(null);
         ((JTextField) PIN).setHorizontalAlignment(JTextField.CENTER);
         pnl1.add(PIN);
 
         final JButton loginBtn = new JButton("Enter");
-        loginBtn.setBounds(672, 318, 160, 46);
+        loginBtn.setBounds(677, 340, 160, 46);
         loginBtn.setFont(new Font("Source Sans Pro", Font.ITALIC + Font.BOLD, 25));
         loginBtn.setContentAreaFilled(true);
         //loginBtn.setBorderPainted(false);
@@ -48,11 +50,11 @@ public class logIn extends frameSettings {
         loginBtn.setForeground(new Color(0, 0, 0));
         pnl1.add(loginBtn);
 
-        frameSettings.addCancelButton(pnl1, 25, 617);
+        frameSettings.addCancelButton(pnl1);
 
         final JButton changePass = new JButton("<html><i><u>Change Password</u></i></html>");
-        changePass.setBounds(678, 430, 160, 35);
-        changePass.setFont(new Font("Source Sans Pro", Font.ITALIC, 18));
+        changePass.setBounds(680, 440, 160, 35);
+        changePass.setFont(new Font("Source Sans Pro", Font.PLAIN, 18));
         changePass.setContentAreaFilled(false);
         changePass.setBorderPainted(false);
         changePass.setFocusPainted(false);
@@ -116,8 +118,7 @@ public class logIn extends frameSettings {
                 int choice2 = JOptionPane.showConfirmDialog(null, "Are you sure you want to change your password?",
                         "Change Password", JOptionPane.YES_NO_OPTION);
                 if (choice2 == JOptionPane.YES_OPTION) {
-                    JPasswordField passwordField = new JPasswordField();
-
+                    
                     // Add KeyListener to the password field
                     passwordField.addKeyListener(new KeyAdapter() {
                         @Override
@@ -129,18 +130,10 @@ public class logIn extends frameSettings {
                         }
                     });
 
-                    int option = JOptionPane.showConfirmDialog(null, passwordField, "Enter your new password",
-                            JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-                    if (option == JOptionPane.OK_OPTION) {
-                        char[] newPasswordChars = passwordField.getPassword();
-                        account.user.setPassword(new String(newPasswordChars));
-
-                        // Process the new password (e.g., update it in your system)
-
-                        JOptionPane.showMessageDialog(null, "You have successfully changed your password!",
-                                "Change Password", JOptionPane.INFORMATION_MESSAGE);
-                    }
+                    verifyPassword();
                 }
+
+                else PIN.requestFocus();
             }
         });
     }
@@ -148,4 +141,34 @@ public class logIn extends frameSettings {
     public static void main (String[]args){
         new logIn();
     }
+
+    
+
+    // Recursion
+    public static void verifyPassword() {
+        int option = JOptionPane.showConfirmDialog(null, passwordField, "Enter your new password",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+    
+        if (option == JOptionPane.OK_OPTION) {
+            if (passwordField.getPassword().length > 0) {
+                char[] newPasswordChars = passwordField.getPassword();
+                account.user.setPassword(new String(newPasswordChars));
+    
+                JOptionPane.showMessageDialog(null, "You have successfully changed your password!",
+                        "Change Password", JOptionPane.INFORMATION_MESSAGE);
+                        PIN.requestFocus();
+            } else {
+                playError();
+                JOptionPane.showMessageDialog(null, "Password cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
+                verifyPassword();
+            }
+        }
+
+        else PIN.requestFocus();
+    }
+
+    
+
+
+    
 }
